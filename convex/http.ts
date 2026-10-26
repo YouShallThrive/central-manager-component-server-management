@@ -20,7 +20,7 @@ http.route({
   handler: httpAction(async (ctx, request) => {
     // Authenticate with shared secret
     const authHeader = request.headers.get("Authorization");
-    const secret = process.env.SSO_SHARED_SECRET || "66mTA4FYT1TTYfuD6FC7eDHLN15vZC7T3L6DLz3tqbk";
+    const secret = process.env.SSO_SHARED_SECRET;
     if (!secret || !authHeader || authHeader !== `Bearer ${secret}`) {
       return new Response(JSON.stringify({ error: "Unauthorized" }), {
         status: 401,
@@ -74,7 +74,7 @@ http.route({
   method: "GET",
   handler: httpAction(async (ctx, request) => {
     const authHeader = request.headers.get("Authorization");
-    const secret = process.env.SSO_SHARED_SECRET || "66mTA4FYT1TTYfuD6FC7eDHLN15vZC7T3L6DLz3tqbk";
+    const secret = process.env.SSO_SHARED_SECRET;
     if (!secret || !authHeader || authHeader !== `Bearer ${secret}`) {
       return new Response(JSON.stringify({ error: "Unauthorized" }), {
         status: 401,
@@ -105,7 +105,7 @@ http.route({
   method: "POST",
   handler: httpAction(async (ctx, request) => {
     const authHeader = request.headers.get("Authorization");
-    const secret = process.env.SSO_SHARED_SECRET || "66mTA4FYT1TTYfuD6FC7eDHLN15vZC7T3L6DLz3tqbk";
+    const secret = process.env.SSO_SHARED_SECRET;
     if (!secret || !authHeader || authHeader !== `Bearer ${secret}`) {
       return new Response(JSON.stringify({ error: "Unauthorized" }), {
         status: 401,
@@ -128,8 +128,7 @@ http.route({
   handler: httpAction(async (ctx, request) => {
     const authHeader = request.headers.get("Authorization");
     const secret =
-      process.env.SSO_SHARED_SECRET ||
-      "66mTA4FYT1TTYfuD6FC7eDHLN15vZC7T3L6DLz3tqbk";
+      process.env.SSO_SHARED_SECRET;
     if (!secret || !authHeader || authHeader !== `Bearer ${secret}`) {
       return new Response(JSON.stringify({ error: "Unauthorized" }), {
         status: 401,
@@ -180,8 +179,7 @@ http.route({
   handler: httpAction(async (ctx, request) => {
     const authHeader = request.headers.get("Authorization");
     const secret =
-      process.env.SSO_SHARED_SECRET ||
-      "66mTA4FYT1TTYfuD6FC7eDHLN15vZC7T3L6DLz3tqbk";
+      process.env.SSO_SHARED_SECRET;
     if (!secret || !authHeader || authHeader !== `Bearer ${secret}`) {
       return new Response(JSON.stringify({ error: "Unauthorized" }), {
         status: 401,
