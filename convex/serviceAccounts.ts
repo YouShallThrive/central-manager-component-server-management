@@ -26,8 +26,11 @@ export const list = query({
       _creationTime: a._creationTime,
       provider: a.provider,
       label: a.label,
-      hasToken: !!a.apiToken,
-      tokenPreview: a.apiToken ? `…${a.apiToken.slice(-8)}` : "",
+      // Read the denormalized token-hygiene fields when present (matching the
+      // imported prod snapshot); fall back to deriving from the internal token
+      // for rows written before the redesign.
+      hasToken: a.hasToken ?? !!a.apiToken,
+      tokenPreview: a.tokenPreview ?? (a.apiToken ? `…${a.apiToken.slice(-8)}` : ""),
       apiUrl: a.apiUrl,
       username: a.username,
       status: a.status,
@@ -100,6 +103,8 @@ export const addInternal = internalMutation({
     if (existing) {
       await ctx.db.patch(existing._id, {
         apiToken: args.apiToken,
+        hasToken: !!args.apiToken,
+        tokenPreview: args.apiToken ? `…${args.apiToken.slice(-8)}` : undefined,
         apiUrl: args.apiUrl,
         username: args.username,
         extraConfig: args.extraConfig,
@@ -112,6 +117,8 @@ export const addInternal = internalMutation({
       provider: args.provider,
       label: args.label,
       apiToken: args.apiToken,
+      hasToken: !!args.apiToken,
+      tokenPreview: args.apiToken ? `…${args.apiToken.slice(-8)}` : undefined,
       apiUrl: args.apiUrl,
       username: args.username,
       extraConfig: args.extraConfig,
@@ -134,6 +141,8 @@ export const add = mutation({
       provider: args.provider,
       label: args.label,
       apiToken: args.apiToken,
+      hasToken: !!args.apiToken,
+      tokenPreview: args.apiToken ? `…${args.apiToken.slice(-8)}` : undefined,
       apiUrl: args.apiUrl,
       username: args.username,
       extraConfig: args.extraConfig,
@@ -160,6 +169,8 @@ export const updateToken = mutation({
   handler: async (ctx, args) => {
     await ctx.db.patch(args.id, {
       apiToken: args.apiToken,
+      hasToken: !!args.apiToken,
+      tokenPreview: args.apiToken ? `…${args.apiToken.slice(-8)}` : undefined,
       status: "connected" as const,
       lastError: undefined,
     });

@@ -9,7 +9,12 @@ const schema = defineSchema({
   serviceAccounts: defineTable({
     provider: v.string(), // "rocket", "cloudways", etc.
     label: v.string(), // Display name, e.g. "YST Main", "Lucid"
-    apiToken: v.string(), // API key / JWT token
+    // Token-hygiene (prod parity): the raw token is internal-only and never
+    // returned by public list queries. The public row shape (and the imported
+    // snapshot) carries hasToken + tokenPreview instead, matching prod's redesign.
+    hasToken: v.boolean(), // whether a (re-provisioned) token is configured
+    tokenPreview: v.optional(v.string()), // truncated tail for display
+    apiToken: v.optional(v.string()), // API key / JWT token (internal only)
     apiUrl: v.optional(v.string()), // Custom API base URL if needed
     username: v.optional(v.string()), // For providers that need username
     extraConfig: v.optional(v.string()), // JSON string for provider-specific config
