@@ -12,7 +12,6 @@ import {
   LandingPage,
   LoginPage,
   SettingsPage,
-  SignupPage,
   ActivityPage,
 } from "./pages";
 
@@ -27,7 +26,7 @@ function App() {
               <Route path="/" element={<LandingPage />} />
               <Route element={<PublicOnlyRoute />}>
                 <Route path="/login" element={<LoginPage />} />
-                <Route path="/signup" element={<SignupPage />} />
+                <Route path="/signup" element={<Navigate to="/login" replace />} />
               </Route>
             </Route>
 
